@@ -1,0 +1,44 @@
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.AuthenticationRequest
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="text-center form-container">
+    <h1 class="display-4">Bem-vindo</h1>
+    @using (Html.BeginForm("Dashboard", "Authentication", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="mb-3">
+            <label asp-for="Username" class="form-label">Usuário</label>
+            <input asp-for="Username" class="form-control form-control-sm input-small" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+            <div id="userHelp" class="form-text">Nunca compartilhe seu usuário com mais ninguém.</div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Senha</label>
+            <input asp-for="Password" type="password" class="form-control form-control-sm input-small" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    }
+    <p>Saiba mais sobre <a href="https://docs.microsoft.com/aspnet/core">criando aplicativos Web com ASP.NET Core</a>.</p>
+</div>
+
+@if (TempData["AuthenticationErro"] != null && TempData["AuthenticationErro"].ToString() == "Invalido")
+{
+    <script>
+        Swal.fire({
+            title: "Usuário ou senha inválidos.",
+            text: "Por favor, tente novamente!",
+            icon: "error"
+        });
+    </script>
+}
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
