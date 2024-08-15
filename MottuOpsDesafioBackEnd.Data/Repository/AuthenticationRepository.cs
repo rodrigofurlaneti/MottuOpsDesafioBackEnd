@@ -14,7 +14,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
         {
             // Garante que _connectionString seja inicializado corretamente
             _connectionString = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new ArgumentNullException(nameof(configuration), "Connection string cannot be null");
+                ?? throw new ArgumentNullException(nameof(configuration), "A string de conexão não pode ser nula");
         }
         public async Task<AuthenticationResponse?> PostAsync(AuthenticationRequest authenticationRequest)
         {

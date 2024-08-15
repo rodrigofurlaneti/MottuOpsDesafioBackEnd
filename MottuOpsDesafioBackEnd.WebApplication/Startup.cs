@@ -15,8 +15,20 @@ public class Startup
     {
         services.AddControllersWithViews();
 
+        // Adiciona cache distribuído para sessão
+        services.AddDistributedMemoryCache();
+
+        // Configura a sessão
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30); // Tempo de expiração da sessão
+            options.Cookie.HttpOnly = true; // Segurança adicional
+            options.Cookie.IsEssential = true; // Necessário para manter a sessão mesmo sem consentimento do usuário
+        });
+
         // Register the repositories
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<IProfileRepository, ProfileRepository>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,7 +41,10 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
+
+        app.UseSession();
 
         app.UseRouting();
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Data.Interface;
 using MottuOpsDesafioBackEnd.Domain.Models;
+using System.Text.Json;
 
 namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 {
@@ -11,6 +12,11 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
         public AuthenticationController(IAuthenticationRepository authenticationRepository)
         {
             _authenticationRepository = authenticationRepository;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -31,7 +37,10 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
+                HttpContext.Session.SetString("AuthResponse", JsonSerializer.Serialize(authenticationResponse));
+
                 TempData["AuthenticationSuccess"] = "Valido";
+
                 return View();
             }
             catch (Exception ex)
