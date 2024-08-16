@@ -100,8 +100,19 @@
 {
     <script>
         Swal.fire({
-            title: "O perfil do usuário foi adicionado",
-            text: "com sucesso!",
+            title: "O novo perfil do usuário",
+            text: "foi adicionado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["UserProfileUpdateSuccess"] != null && TempData["UserProfileUpdateSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro do perfil do usuário",
+            text: "foi atualizado com sucesso!",
             icon: "success"
         });
     </script>
@@ -111,7 +122,7 @@
 {
     <script>
         Swal.fire({
-            title: "O perfil do usuário não foi adicionado.",
+            title: "O novo perfil do usuário não foi adicionado.",
             text: "Tente novamente mais tarde!",
             icon: "error"
         });

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<MottuOpsDesafioBackEnd.Domain.Models.UserProfileModel>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Nome</th>
+            <th scope="col" class="text-center">Atualizar</th>
+            <th scope="col" class="text-center">Apagar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProfileName</td>
+                    <td>
+                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="Profile" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger text-center" asp-area="" asp-controller="Profile" asp-action="Delete">Apagar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <h5>Falta banco de dados!</h5>
+        }
+    </tbody>
+</table>
+
+<h6>Total de perfis de usuário cadastrados: @Model.Count()</h6>

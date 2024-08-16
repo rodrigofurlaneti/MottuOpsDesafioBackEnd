@@ -1,0 +1,14 @@
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.UserProfileModel
+
+<div class="text-center form-container">
+    <h1 class="display-4">Adicionar um novo perfil</h1>
+    @using (Html.BeginForm("Update", "Profile", FormMethod.Post, new { @class = "form-horizontal", id = "profileForm" }))
+    {
+        <div class="mb-3">
+            <input asp-for="Id" type="hidden" />
+            <label asp-for="ProfileName" class="form-label">Nome do perfil</label>
+            <input asp-for="ProfileName" class="form-control form-control-sm input-small" />
+        </div>
+        <button type="submit" class="btn btn-success" onclick="submitFormAsPut()">Cadastrar</button>
+    }
+</div>

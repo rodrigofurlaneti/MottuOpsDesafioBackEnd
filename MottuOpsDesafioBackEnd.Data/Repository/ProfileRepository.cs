@@ -57,5 +57,185 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                 throw;
             }
         }
+
+        public async Task<IEnumerable<UserProfileModel>> GetAllAsync()
+        {
+            List<UserProfileModel> list = new List<UserProfileModel>();
+
+            string storedProcedureName = "Mottu_Procedure_UserProfiles_GetAll";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        await connection.OpenAsync();
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                list.Add(CreateFromReader(reader));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+
+            return list;
+        }
+
+        public async Task<UserProfileModel> GetByIdAsync(int userProfileId)
+        {
+            string storedProcedureName = "Mottu_Procedure_UserProfiles_GetById";
+
+            UserProfileModel? userProfileModel = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@UserProfilesId", userProfileId);
+
+                        await connection.OpenAsync();
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                userProfileModel = CreateUserProfileFromReader(reader);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+
+            return userProfileModel;
+        }
+
+        public async Task PutAsync(UserProfileModel userProfileModel)
+        {
+            string storedProcedureName = "Mottu_Procedure_UserProfiles_Update";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Adicionar apenas os parâmetros necessários
+                        AddUserProfilesParameters(command, userProfileModel);
+
+                        await connection.OpenAsync();
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            string storedProcedureName = "Mottu_Procedure_UserProfiles_Delete";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        await connection.OpenAsync();
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+        }
+
+        private void AddUserProfilesParameters(SqlCommand command, UserProfileModel userProfileModel)
+        {
+            var parameters = new (string, object?)[]
+            {
+                    ("@ProfileId", userProfileModel.Id),
+                    ("@ProfileName", userProfileModel.ProfileName)
+            };
+
+            foreach (var (name, value) in parameters)
+            {
+                Console.WriteLine($"{name}: {value}");
+                command.Parameters.AddWithValue(name, value);
+            }
+        }
+
+        private UserProfileModel CreateUserProfileFromReader(SqlDataReader reader)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+                Console.WriteLine(reader.GetName(i) + " - " + reader.GetFieldType(i));
+
+            return new UserProfileModel
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                ProfileName = reader.GetString(reader.GetOrdinal("ProfileName"))
+            };
+        }
+
+        private UserProfileModel CreateFromReader(SqlDataReader reader)
+        {
+            return new UserProfileModel
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                ProfileName = reader.GetString(reader.GetOrdinal("ProfileName"))
+            };
+        }
     }
 }
