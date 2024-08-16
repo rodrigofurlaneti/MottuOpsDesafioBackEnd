@@ -1,4 +1,6 @@
-﻿using MottuOpsDesafioBackEnd.Data.Interface;
+﻿using MottuOpsDesafioBackEnd.Business.Interface;
+using MottuOpsDesafioBackEnd.Business.Service;
+using MottuOpsDesafioBackEnd.Data.Interface;
 using MottuOpsDesafioBackEnd.Data.Repository;
 
 public class Startup
@@ -10,29 +12,32 @@ public class Startup
 
     public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews();
 
-        // Adiciona cache distribuído para sessão
         services.AddDistributedMemoryCache();
 
-        // Configura a sessão
         services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromMinutes(30); // Tempo de expiração da sessão
-            options.Cookie.HttpOnly = true; // Segurança adicional
-            options.Cookie.IsEssential = true; // Necessário para manter a sessão mesmo sem consentimento do usuário
+            options.IdleTimeout = TimeSpan.FromMinutes(30); 
+            options.Cookie.HttpOnly = true; 
+            options.Cookie.IsEssential = true; 
         });
 
-        // Register the repositories
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<IMotorcycleService, MotorcycleService>();
+        services.AddScoped<IMotorcycleTypeService, MotorcycleTypeService>();
+        services.AddScoped<IUserService, UserService>();
+
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+        services.AddScoped<IMotorcycleTypeRepository, MotorcycleTypeRepository>();
         services.AddScoped<IProfileRepository, ProfileRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>(); 
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (!env.IsDevelopment())

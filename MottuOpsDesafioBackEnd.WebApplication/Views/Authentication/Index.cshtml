@@ -22,6 +22,15 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Modelo
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("Index", "MotorcycleType")">Adicionar</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("GetAll", "MotorcycleType")">Listar todos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Usuário
                         </a>
                         <ul class="dropdown-menu">
@@ -75,6 +84,17 @@
         Swal.fire({
             title: "Usuário e senha válidos.",
             text: "Autenticado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["MotorcycleTypeSuccess"] != null && TempData["MotorcycleTypeSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O novo modelo de moto",
+            text: "foi adicionado com sucesso!",
             icon: "success"
         });
     </script>

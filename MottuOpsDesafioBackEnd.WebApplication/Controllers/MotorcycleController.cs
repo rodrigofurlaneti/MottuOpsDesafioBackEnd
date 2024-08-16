@@ -1,61 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Business.Interface;
 using MottuOpsDesafioBackEnd.Domain.Models;
-using System.Text.Json;
 
 namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 {
-    public class UserController : Controller
+    public class MotorcycleController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IMotorcycleService _motorcycleService;
 
-        private readonly IProfileService _profileService;
-
-        public UserController(IUserService userService, IProfileService profileService)
+        public MotorcycleController(IMotorcycleService motorcycleService)
         {
-            _userService = userService;
-
-            _profileService = profileService;
+            _motorcycleService = motorcycleService;
         }
 
-        public async Task<ActionResult> Index()
+
+        public IActionResult Index()
         {
-            var profiles = await _profileService.GetAllAsync();
-
-            var model = new UserModel
-            {
-                Profiles = profiles.ToList()
-            };
-
-            return View(model);
+            return View();
         }
 
         public async Task<IActionResult> GetAll()
         {
-            var userModel = await _userService.GetAllAsync();
+            var motorcycleModel = await _motorcycleService.GetAllAsync();
 
-            return View(userModel);
+            return View(motorcycleModel);
         }
 
-        public async Task<ActionResult<int>> Post([FromForm] UserModel userModel)
+        public async Task<ActionResult<int>> Post([FromForm] MotorcycleModel motorcycleModel)
         {
-            if (userModel == null)
+            if (motorcycleModel == null)
             {
-                return BadRequest("A solicitação do usuário é nula");
+                return BadRequest("A solicitação do moto é nula");
             }
 
             try
             {
-                var userProfile = await _userService.PostAsync(userModel);
+                var userProfile = await _motorcycleService.PostAsync(motorcycleModel);
 
                 if (userProfile == 0)
                 {
-                    TempData["UserErro"] = "Invalido";
+                    TempData["MotorcyclerErro"] = "Invalido";
 
                     return RedirectToAction("Index", "Authentication");
                 }
 
-                TempData["UserSuccess"] = "Valido";
+                TempData["MotorcycleSuccess"] = "Valido";
 
                 return RedirectToAction("Index", "Authentication");
             }
@@ -69,29 +58,25 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
         }
 
 
-        public async Task<ActionResult<UserModel>> GetById(int id)
+        public async Task<ActionResult<MotorcycleModel>> GetById(int id)
         {
             if (id == 0)
             {
-                return BadRequest("A solicitação para atualizar o usuário é nula");
+                return BadRequest("A solicitação para atualizar a moto é nula");
             }
 
             try
             {
-                var user = await _userService.GetByIdAsync(id);
+                var motorcycle = await _motorcycleService.GetByIdAsync(id);
 
-                if (user == null)
+                if (motorcycle == null)
                 {
-                    TempData["UserErro"] = "Invalido";
+                    TempData["MotorcycleErro"] = "Invalido";
 
                     return RedirectToAction("Index", "Authentication");
                 }
 
-                var profiles = await _profileService.GetAllAsync();
-
-                user.Profiles = profiles.ToList();
-
-                return View(user);
+                return View(motorcycle);
             }
             catch (Exception ex)
             {
@@ -102,18 +87,18 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             }
         }
 
-        public async Task<IActionResult> Update([FromForm] UserModel userModel)
+        public async Task<IActionResult> Update([FromForm] MotorcycleModel motorcycleModel)
         {
-            if (userModel == null)
+            if (motorcycleModel == null)
             {
                 return BadRequest("A solicitação do usuário é nula");
             }
 
             try
             {
-                await _userService.PutAsync(userModel);
+                await _motorcycleService.PutAsync(motorcycleModel);
 
-                TempData["UserUpdateSuccess"] = "Valido";
+                TempData["MotorcycleUpdateSuccess"] = "Valido";
 
                 return RedirectToAction("Index", "Authentication");
             }
@@ -133,14 +118,11 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
                 return BadRequest("A solicitação para apagar o usuário é nula");
             }
 
-            await _userService.DeleteAsync(id);
+            await _motorcycleService.DeleteAsync(id);
 
-            TempData["UserDeleteSuccess"] = "Valido";
+            TempData["MotorcycleDeleteSuccess"] = "Valido";
 
             return RedirectToAction("Index", "Authentication");
         }
-
-
-
     }
 }

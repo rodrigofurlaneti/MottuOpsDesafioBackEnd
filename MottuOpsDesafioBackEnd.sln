@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MottuOpsDesafioBackEnd.WebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MottuOpsDesafioBackEnd.Domain", "MottuOpsDesafioBackEnd.Domain\MottuOpsDesafioBackEnd.Domain.csproj", "{C5630B93-7D6F-4D0E-8429-CDF6CE83B44C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MottuOpsDesafioBackEnd.Data", "MottuOpsDesafioBackEnd.Data\MottuOpsDesafioBackEnd.Data.csproj", "{CC3F6090-CE52-414B-8CF9-B343632955A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MottuOpsDesafioBackEnd.Data", "MottuOpsDesafioBackEnd.Data\MottuOpsDesafioBackEnd.Data.csproj", "{CC3F6090-CE52-414B-8CF9-B343632955A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MottuOpsDesafioBackEnd.Service", "MottuOpsDesafioBackEnd.Service\MottuOpsDesafioBackEnd.Service.csproj", "{B9620D99-3280-4F2B-94CA-4BA9179A3BB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MottuOpsDesafioBackEnd.Business", "MottuOpsDesafioBackEnd.Service\MottuOpsDesafioBackEnd.Business.csproj", "{B9620D99-3280-4F2B-94CA-4BA9179A3BB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

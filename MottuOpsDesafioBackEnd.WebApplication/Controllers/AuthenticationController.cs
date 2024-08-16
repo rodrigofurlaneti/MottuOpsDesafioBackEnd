@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MottuOpsDesafioBackEnd.Data.Interface;
+using MottuOpsDesafioBackEnd.Business.Interface;
 using MottuOpsDesafioBackEnd.Domain.Models;
 using System.Text.Json;
 
@@ -7,11 +7,11 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private readonly IAuthenticationRepository _authenticationRepository;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AuthenticationController(IAuthenticationRepository authenticationRepository)
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
-            _authenticationRepository = authenticationRepository;
+            _authenticationService = authenticationService;
         }
 
         public IActionResult Index()
@@ -28,7 +28,7 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
             try
             {
-                var authenticationResponse = await _authenticationRepository.PostAsync(authenticationRequest);
+                var authenticationResponse = await _authenticationService.PostAsync(authenticationRequest);
 
                 if (authenticationResponse == null)
                 {
@@ -46,6 +46,7 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             {
                 // Log de erro
                 Console.Error.WriteLine($"Erro durante a autenticação: {ex.Message}");
+
                 return StatusCode(500, "Erro do Servidor Interno");
             }
         }

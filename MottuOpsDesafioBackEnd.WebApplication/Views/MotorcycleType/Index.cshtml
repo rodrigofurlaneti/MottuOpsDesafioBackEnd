@@ -1,0 +1,14 @@
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.MotorcycleTypeModel
+
+<div class="text-center form-container">
+    <h1 class="display-4">Adicionar um novo modelo de moto</h1>
+    @using (Html.BeginForm("Post", "MotorcycleType", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="mb-3">
+            <label asp-for="TypeName" class="form-label">Nome do modelo da moto</label>
+            <input asp-for="TypeName" class="form-control form-control-sm input-small" />
+            <span asp-validation-for="TypeName" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+    }
+</div>
