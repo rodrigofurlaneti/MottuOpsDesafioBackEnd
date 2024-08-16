@@ -8,5 +8,6 @@ namespace MottuOpsDesafioBackEnd.Data.Interface
         Task<IEnumerable<UserProfileModel>> GetAllAsync();
         Task<UserProfileModel> GetByIdAsync(int userProfileId);
         Task PutAsync(UserProfileModel userProfileModel);
+        Task DeleteAsync(int userProfileId);
     }
 }

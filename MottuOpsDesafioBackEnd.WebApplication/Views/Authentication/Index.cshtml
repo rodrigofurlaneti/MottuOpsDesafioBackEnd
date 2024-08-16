@@ -100,7 +100,7 @@
 {
     <script>
         Swal.fire({
-            title: "O novo perfil do usuário",
+            title: "O novo perfil de usuário",
             text: "foi adicionado com sucesso!",
             icon: "success"
         });
@@ -111,8 +111,19 @@
 {
     <script>
         Swal.fire({
-            title: "O registro do perfil do usuário",
+            title: "O registro do perfil de usuário",
             text: "foi atualizado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["UserProfileDeleteSuccess"] != null && TempData["UserProfileDeleteSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro do perfil de usuário",
+            text: "foi apagado com sucesso!",
             icon: "success"
         });
     </script>
@@ -122,7 +133,7 @@
 {
     <script>
         Swal.fire({
-            title: "O novo perfil do usuário não foi adicionado.",
+            title: "O novo perfil de usuário não foi adicionado.",
             text: "Tente novamente mais tarde!",
             icon: "error"
         });

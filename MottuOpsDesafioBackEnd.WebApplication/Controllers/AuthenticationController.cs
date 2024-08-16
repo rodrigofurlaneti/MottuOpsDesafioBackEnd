@@ -19,7 +19,6 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             return View();
         }
 
-        [HttpPost]
         public async Task<ActionResult<AuthenticationResponse>> Dashboard([FromForm] AuthenticationRequest authenticationRequest)
         {
             if (authenticationRequest == null)

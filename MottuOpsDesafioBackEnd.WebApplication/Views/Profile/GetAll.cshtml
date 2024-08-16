@@ -4,8 +4,8 @@
     <thead>
         <tr>
             <th scope="col" class="text-center">Nome</th>
-            <th scope="col" class="text-center">Atualizar</th>
-            <th scope="col" class="text-center">Apagar</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +19,7 @@
                         <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="Profile" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger text-center" asp-area="" asp-controller="Profile" asp-action="Delete">Apagar</a>
+                        <a class="btn btn-danger text-center" asp-area="" asp-controller="Profile" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
                     </td>
                 </tr>
             }

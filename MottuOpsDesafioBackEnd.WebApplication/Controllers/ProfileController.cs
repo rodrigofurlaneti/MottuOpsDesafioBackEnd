@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Data.Interface;
-using MottuOpsDesafioBackEnd.Data.Repository;
 using MottuOpsDesafioBackEnd.Domain.Models;
 using System.Text.Json;
 
@@ -15,6 +14,7 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             _profileRepository = profileRepository;
         }
 
+
         public IActionResult Index()
         {
             return View();
@@ -28,19 +28,18 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             return View(userProfile);
         }
 
-        [HttpPost]
         public async Task<ActionResult<int>> Post([FromForm] UserProfileModel userProfileModel)
         {
             if (userProfileModel == null)
             {
-                return BadRequest("A solicitação do perfil do usuário é nula");
+                return BadRequest("A solicitação do perfil de usuário é nula");
             }
 
             try
             {
                 var userProfile = await _profileRepository.PostAsync(userProfileModel);
 
-                if (userProfile == null)
+                if (userProfile == 0)
                 {
                     TempData["UserProfileErro"] = "Invalido";
 
@@ -60,7 +59,7 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+
         public async Task<ActionResult<UserProfileModel>> GetById(int id)
         {
             if (id == 0)
@@ -90,7 +89,6 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
             }
         }
 
-        [HttpPost]
         public async Task<IActionResult> Update([FromForm] UserProfileModel userProfileModel)
         {
             if (userProfileModel == null)
@@ -113,6 +111,20 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
                 return StatusCode(500, "Erro do Servidor Interno");
             } // Se houver erros, retorne a view com o modelo para correção
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("A solicitação para apagar o perfil do usuário é nula");
+            }
+
+            await _profileRepository.DeleteAsync(id);
+
+            TempData["UserProfileDeleteSuccess"] = "Valido";
+
+            return RedirectToAction("Index", "Authentication");
         }
 
     }

@@ -183,7 +183,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                     using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@Id", id);
+                        command.Parameters.AddWithValue("@UserProfileId", id);
 
                         await connection.OpenAsync();
                         await command.ExecuteNonQueryAsync();
