@@ -1,12 +1,11 @@
 ﻿@model MottuOpsDesafioBackEnd.Domain.Models.UserModel
 
 <div class="text-center form-container">
-
-    <h1 class="display-4">Adicionar um novo usuário</h1>
-
-    @using (Html.BeginForm("Post", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+    <h1 class="display-4">Atualizar o usuário</h1>
+    @using (Html.BeginForm("Update", "User", FormMethod.Post, new { @class = "form-horizontal", id = "userForm" }))
     {
         <div class="mb-3">
+            <input asp-for="Id" type="hidden" />
             <label asp-for="Username" class="form-label">Usuário</label>
             <input asp-for="Username" class="form-control form-control-sm input-small" />
             <span asp-validation-for="Username" class="text-danger"></span>
@@ -14,7 +13,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="PasswordHash" class="form-label">Senha</label>
-            <input asp-for="PasswordHash" type="password" class="form-control form-control-sm input-small" />
+            <input asp-for="PasswordHash" type="text" class="form-control form-control-sm input-small" />
             <span asp-validation-for="PasswordHash" class="text-danger"></span>
         </div>
         <div class="mb-3">
@@ -28,6 +27,6 @@
             </select>
             <span asp-validation-for="ProfileId" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-success" onclick="submitFormAsPut()">Cadastrar</button>
     }
 </div>
