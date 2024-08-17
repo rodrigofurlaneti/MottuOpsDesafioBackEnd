@@ -35,17 +35,15 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
 
                         command.Parameters.AddWithValue("@Model", motorcycleModel.Model);
 
-                        command.Parameters.AddWithValue("@RegistrationDate", motorcycleModel.RegistrationDate);
-
                         command.Parameters.AddWithValue("@Year", motorcycleModel.Year);
 
                         await connection.OpenAsync();
 
                         var result = await command.ExecuteScalarAsync();
 
-                        if (result != null && int.TryParse(result.ToString(), out int userProfileId))
+                        if (result != null && int.TryParse(result.ToString(), out int motorcycleId))
                         {
-                            return userProfileId;
+                            return motorcycleId;
                         }
                         else
                         {

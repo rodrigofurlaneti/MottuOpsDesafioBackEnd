@@ -6,8 +6,7 @@
             <th scope="col" class="text-center">Identificador</th>
             <th scope="col" class="text-center">Ano da moto</th>
             <th scope="col" class="text-center">Modelo</th>
-            <th scope="col" class="text-center">LicensePlate</th>
-            <th scope="col" class="text-center">RegistrationDate</th>
+            <th scope="col" class="text-center">Matricula</th>
             <th scope="col" class="text-center"></th>
             <th scope="col" class="text-center"></th>
         </tr>
@@ -22,12 +21,11 @@
                     <td>@item.Year</td>
                     <td>@item.Model</td>
                     <td>@item.LicensePlate</td>
-                    <td>@item.RegistrationDate</td>
                     <td>
-                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="MotorcycleType" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
+                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="Motorcycle" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger text-center" asp-area="" asp-controller="MotorcycleType" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+                        <a class="btn btn-danger text-center" asp-area="" asp-controller="Motorcycle" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
                     </td>
                 </tr>
             }

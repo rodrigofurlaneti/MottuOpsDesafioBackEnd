@@ -130,7 +130,8 @@
         });
     </script>
 }
-@if (TempData["MotorcycleSuccess"] != null && TempData["MotorcycleTypeSuccess"].ToString() == "Valido")
+
+@if (TempData["MotorcycleSuccess"] != null && TempData["MotorcycleSuccess"].ToString() == "Valido")
 {
     <script>
         Swal.fire({
@@ -156,7 +157,7 @@
 {
     <script>
         Swal.fire({
-            title: "O registro da moto",
+            title: "O registro  da moto",
             text: "foi apagado com sucesso!",
             icon: "success"
         });
