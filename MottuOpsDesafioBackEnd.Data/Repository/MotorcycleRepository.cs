@@ -118,7 +118,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@MotorcycleId", motorcycleId);
+                        command.Parameters.AddWithValue("@MotorcyclesId", motorcycleId);
 
                         await connection.OpenAsync();
 
@@ -159,7 +159,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                         command.CommandType = CommandType.StoredProcedure;
 
                         // Adicionar apenas os parâmetros necessários
-                        AddUserProfilesParameters(command, motorcycleModel);
+                        AddUserMotorcyclesParameters(command, motorcycleModel);
 
                         await connection.OpenAsync();
 
@@ -211,15 +211,14 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
             }
         }
 
-        private void AddUserProfilesParameters(SqlCommand command, MotorcycleModel motorcycleModel)
+        private void AddUserMotorcyclesParameters(SqlCommand command, MotorcycleModel motorcycleModel)
         {
             var parameters = new (string, object?)[]
             {
-                    ("@Id", motorcycleModel.Id),
+                    ("@MotorcycleId", motorcycleModel.Id),
                     ("@Identifier", motorcycleModel.Identifier),
                     ("@LicensePlate", motorcycleModel.LicensePlate),
                     ("@Model", motorcycleModel.Model),
-                    ("@RegistrationDate", motorcycleModel.RegistrationDate),
                     ("@Year", motorcycleModel.Year)
             };
 

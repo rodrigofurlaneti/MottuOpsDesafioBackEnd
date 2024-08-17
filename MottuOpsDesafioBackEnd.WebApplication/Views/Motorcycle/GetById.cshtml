@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.MotorcycleModel
+
+<div class="text-center form-container">
+    <h1 class="display-4">Atualizar o modelo da moto</h1>
+    @using (Html.BeginForm("Update", "Motorcycle", FormMethod.Post, new { @class = "form-horizontal", id = "typeMotorcycleForm" }))
+    {
+        <input asp-for="Id" type="hidden" />
+        <div class="mb-3">
+            <label asp-for="Identifier" class="form-label">Identificador</label>
+            <input asp-for="Identifier" class="form-control form-control-sm input-small" />
+            <span asp-validation-for="Identifier" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Year" class="form-label">Ano da moto</label>
+            <input asp-for="Year" type="number" class="form-control form-control-sm input-small" value="@DateTime.Now.Year" />
+            <span asp-validation-for="Year" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Model" class="form-label">Perfil</label>
+            <select asp-for="Model" class="form-control form-control-sm input-small">
+                <option value="">Selecione um perfil</option>
+                @foreach (var motorcycleType in Model.Models)
+                {
+                    <option value="@motorcycleType.TypeName">@motorcycleType.TypeName</option>
+                }
+            </select>
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LicensePlate" class="form-label">Matrícula</label>
+            <input asp-for="LicensePlate" type="number" class="form-control form-control-sm input-small" />
+            <span asp-validation-for="LicensePlate" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    }
+</div>

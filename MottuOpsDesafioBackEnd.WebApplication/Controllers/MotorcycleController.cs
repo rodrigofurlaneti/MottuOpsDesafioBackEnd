@@ -86,6 +86,10 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
                     return RedirectToAction("Index", "Authentication");
                 }
 
+                var motorcycleType = await _motorcycleTypeService.GetAllAsync();
+
+                motorcycle.Models = motorcycleType.ToList();
+
                 return View(motorcycle);
             }
             catch (Exception ex)
