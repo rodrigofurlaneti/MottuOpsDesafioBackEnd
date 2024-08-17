@@ -185,7 +185,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
-                        command.Parameters.AddWithValue("@MotorcycleTypeId", id);
+                        command.Parameters.AddWithValue("@MotorcyclesTypesId", id);
 
                         await connection.OpenAsync();
 
@@ -209,7 +209,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
         {
             var parameters = new (string, object?)[]
             {
-                    ("@Id", motorcycleTypeModel.Id),
+                    ("@TypeId", motorcycleTypeModel.Id),
                     ("@TypeName", motorcycleTypeModel.TypeName)
             };
 

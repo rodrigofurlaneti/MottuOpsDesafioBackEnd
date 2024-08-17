@@ -19,7 +19,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
 
         public async Task<int> PostAsync(MotorcycleModel motorcycleModel)
         {
-            string storedProcedureName = "Mottu_Procedure_Motorcycle_Insert";
+            string storedProcedureName = "Mottu_Procedure_Motorcycles_Insert";
 
             try
             {
@@ -70,7 +70,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
         {
             List<MotorcycleModel> list = new List<MotorcycleModel>();
 
-            string storedProcedureName = "Mottu_Procedure_Motorcycle_GetAll";
+            string storedProcedureName = "Mottu_Procedure_Motorcycles_GetAll";
 
             try
             {
@@ -108,7 +108,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
 
         public async Task<MotorcycleModel> GetByIdAsync(int motorcycleId)
         {
-            string storedProcedureName = "Mottu_Procedure_Motorcycle_GetById";
+            string storedProcedureName = "Mottu_Procedure_Motorcycles_GetById";
 
             MotorcycleModel? motorcycleModel = null;
 
@@ -150,7 +150,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
 
         public async Task PutAsync(MotorcycleModel motorcycleModel)
         {
-            string storedProcedureName = "Mottu_Procedure_Motorcycle_Update";
+            string storedProcedureName = "Mottu_Procedure_Motorcycles_Update";
 
             try
             {
@@ -183,7 +183,7 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
 
         public async Task DeleteAsync(int id)
         {
-            string storedProcedureName = "Mottu_Procedure_Motorcycle_Delete";
+            string storedProcedureName = "Mottu_Procedure_Motorcycles_Delete";
 
             try
             {

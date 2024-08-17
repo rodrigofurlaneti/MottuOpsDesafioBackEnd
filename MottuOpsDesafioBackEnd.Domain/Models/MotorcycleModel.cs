@@ -8,5 +8,6 @@
         public string Model { get; set; } = string.Empty;
         public string LicensePlate { get; set; } = string.Empty;
         public DateTime RegistrationDate { get; set; }
+        public List<MotorcycleTypeModel> Models { get; set; }
     }
 }

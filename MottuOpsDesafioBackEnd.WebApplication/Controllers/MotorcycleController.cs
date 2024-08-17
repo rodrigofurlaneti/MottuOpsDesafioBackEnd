@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Business.Interface;
+using MottuOpsDesafioBackEnd.Business.Service;
 using MottuOpsDesafioBackEnd.Domain.Models;
 
 namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
@@ -8,15 +9,25 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
     {
         private readonly IMotorcycleService _motorcycleService;
 
-        public MotorcycleController(IMotorcycleService motorcycleService)
+        private readonly IMotorcycleTypeService _motorcycleTypeService;
+
+        public MotorcycleController(IMotorcycleService motorcycleService, IMotorcycleTypeService motorcycleTypeService)
         {
             _motorcycleService = motorcycleService;
+            _motorcycleTypeService = motorcycleTypeService;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var motorcycleType = await _motorcycleTypeService.GetAllAsync();
+
+            var model = new MotorcycleModel
+            {
+                Models = motorcycleType.ToList()
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> GetAll()
@@ -39,7 +50,7 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
                 if (userProfile == 0)
                 {
-                    TempData["MotorcyclerErro"] = "Invalido";
+                    TempData["MotorcycleErro"] = "Invalido";
 
                     return RedirectToAction("Index", "Authentication");
                 }

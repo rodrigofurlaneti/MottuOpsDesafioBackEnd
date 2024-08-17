@@ -31,6 +31,15 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Moto
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("Index", "Motorcycle")">Adicionar</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("GetAll", "Motorcycle")">Listar todos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Usuário
                         </a>
                         <ul class="dropdown-menu">
@@ -99,6 +108,61 @@
         });
     </script>
 }
+
+@if (TempData["MotorcycleTypeUpdateSuccess"] != null && TempData["MotorcycleTypeUpdateSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro do modelo da moto",
+            text: "foi atualizado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["MotorcycleTypeDeleteSuccess"] != null && TempData["MotorcycleTypeDeleteSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro do modelo da moto",
+            text: "foi apagado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+@if (TempData["MotorcycleSuccess"] != null && TempData["MotorcycleTypeSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "A nova moto",
+            text: "foi adicionado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["MotorcycleUpdateSuccess"] != null && TempData["MotorcycleTypeUpdateSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro da moto",
+            text: "foi atualizado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["MotorcycleDeleteSuccess"] != null && TempData["MotorcycleTypeDeleteSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro da moto",
+            text: "foi apagado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
 
 @if (TempData["UserSuccess"] != null && TempData["UserSuccess"].ToString() == "Valido")
 {
