@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Business.Interface;
-using MottuOpsDesafioBackEnd.Business.Service;
 using MottuOpsDesafioBackEnd.Domain.Models;
 
 namespace MottuOpsDesafioBackEnd.WebApplication.Controllers

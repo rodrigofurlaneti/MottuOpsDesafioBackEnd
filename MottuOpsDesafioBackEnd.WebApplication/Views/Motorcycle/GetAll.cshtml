@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<MottuOpsDesafioBackEnd.Domain.Models.MotorcycleModel>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Identificador</th>
+            <th scope="col" class="text-center">Ano da moto</th>
+            <th scope="col" class="text-center">Modelo</th>
+            <th scope="col" class="text-center">LicensePlate</th>
+            <th scope="col" class="text-center">RegistrationDate</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Identifier</td>
+                    <td>@item.Year</td>
+                    <td>@item.Model</td>
+                    <td>@item.LicensePlate</td>
+                    <td>@item.RegistrationDate</td>
+                    <td>
+                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="MotorcycleType" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger text-center" asp-area="" asp-controller="MotorcycleType" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <h5>Falta banco de dados!</h5>
+        }
+    </tbody>
+</table>
+
+<h6>Total de modelos de motos cadastrados: @Model.Count()</h6>
