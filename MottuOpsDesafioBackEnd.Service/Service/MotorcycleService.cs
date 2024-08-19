@@ -39,6 +39,20 @@ namespace MottuOpsDesafioBackEnd.Business.Service
             }
         }
 
+        public Task<bool> GetByLicensePlateAsync(string licensePlate)
+        {
+            try
+            {
+                return _motorcycleRepository.GetByLicensePlateAsync(licensePlate);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro ao consultar se a placa já existe na base de dados {licensePlate}", ex.Message);
+
+                throw new ApplicationException($"Erro ao consultar se a placa já existe na base de dados {licensePlate}", ex);
+            }
+        }
+
         public Task<MotorcycleModel> GetByIdAsync(int motorcycleId)
         {
             try

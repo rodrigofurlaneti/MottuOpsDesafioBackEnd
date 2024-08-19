@@ -26,12 +26,14 @@ public class Startup
         });
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<ICourierService, CourierService>();
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<IMotorcycleService, MotorcycleService>();
         services.AddScoped<IMotorcycleTypeService, MotorcycleTypeService>();
         services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<ICourierRepository, CourierRepository>();
         services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
         services.AddScoped<IMotorcycleTypeRepository, MotorcycleTypeRepository>();
         services.AddScoped<IProfileRepository, ProfileRepository>();

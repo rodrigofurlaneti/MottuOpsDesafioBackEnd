@@ -19,16 +19,38 @@
             <input asp-for="Password" type="password" class="form-control form-control-sm input-small" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
+        <a href="@Url.Action("Index", "Courier")" class="btn btn-warning btn-sm">Cadastre-se Entregador</a>
     }
-    <p>Saiba mais sobre <a href="https://docs.microsoft.com/aspnet/core">criando aplicativos Web com ASP.NET Core</a>.</p>
 </div>
 
 @if (TempData["AuthenticationErro"] != null && TempData["AuthenticationErro"].ToString() == "Invalido")
 {
     <script>
         Swal.fire({
-            title: "Usuário ou senha inválidos.",
+            title: "Usuário ou senha inválidos",
+            text: "Por favor, tente novamente!",
+            icon: "error"
+        });
+    </script>
+}
+
+@if (TempData["CourierSuccess"] != null && TempData["CourierSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O entregador foi cadastrado com sucesso!",
+            text: "Realize a autenticação de acesso.",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["CourierErro"] != null && TempData["CourierErro"].ToString() == "Invalido")
+{
+    <script>
+        Swal.fire({
+            title: "Erro ao registrar o entregador!",
             text: "Por favor, tente novamente!",
             icon: "error"
         });

@@ -87,6 +87,17 @@
     </nav>
 }
 
+@if (TempData["MotorcycleLicensePlateExistErro"] != null && TempData["MotorcycleLicensePlateExistErro"].ToString() == "Invalido")
+{
+    <script>
+        Swal.fire({
+            title: "Não foi possivel adicionar esta moto.",
+            text: "Existe está placa cadastrar!",
+            icon: "error"
+        });
+    </script>
+}
+
 @if (TempData["AuthenticationSuccess"] != null && TempData["AuthenticationSuccess"].ToString() == "Valido")
 {
     <script>

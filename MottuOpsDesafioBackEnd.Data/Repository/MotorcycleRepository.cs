@@ -104,6 +104,50 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
             return list;
         }
 
+        public async Task<bool> GetByLicensePlateAsync(string licensePlate)
+        {
+            string storedProcedureName = "Mottu_Procedure_Motorcycles_GetByLicensePlate";
+
+            bool ret = false;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@LicensePlate", licensePlate);
+
+                        SqlParameter existsParameter = new SqlParameter("@Exists", SqlDbType.Bit)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        command.Parameters.Add(existsParameter);
+
+                        await connection.OpenAsync();
+
+                        await command.ExecuteNonQueryAsync();
+
+                        ret = (bool)existsParameter.Value;
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+
+            return ret;
+        }
+
         public async Task<MotorcycleModel> GetByIdAsync(int motorcycleId)
         {
             string storedProcedureName = "Mottu_Procedure_Motorcycles_GetById";

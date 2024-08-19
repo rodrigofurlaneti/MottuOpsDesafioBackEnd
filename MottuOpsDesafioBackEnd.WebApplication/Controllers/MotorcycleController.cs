@@ -45,9 +45,18 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
             try
             {
-                var userProfile = await _motorcycleService.PostAsync(motorcycleModel);
+                var licensePlateExist = await _motorcycleService.GetByLicensePlateAsync(motorcycleModel.LicensePlate);
 
-                if (userProfile == 0)
+                if (licensePlateExist)
+                {
+                    TempData["MotorcycleLicensePlateExistErro"] = "Invalido";
+
+                    return RedirectToAction("Index", "Authentication");
+                }
+
+                var motorcycle = await _motorcycleService.PostAsync(motorcycleModel);
+
+                if (motorcycle == 0)
                 {
                     TempData["MotorcycleErro"] = "Invalido";
 
