@@ -2,11 +2,13 @@
 @{
     var authResponseJson = Context.Session.GetString("AuthResponse"); // Ou use ViewContext.HttpContext.Session
     int? profileId = null;
+    int? userId = null;
 
     if (!string.IsNullOrEmpty(authResponseJson))
     {
         var authResponse = JsonSerializer.Deserialize<MottuOpsDesafioBackEnd.Domain.Models.AuthenticationResponse>(authResponseJson);
         profileId = authResponse?.ProfileId;
+        userId = authResponse?.Id;
     }
 }
 
@@ -64,7 +66,7 @@
 
 @if (profileId == 2)
 {
-    <nav id="navAdm" name="navAdm" class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav id="navAdm" name="navEntragador" class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Entregador</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,8 +79,15 @@
                             Entregador
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Atualizar</a></li>
-                            <li><a class="dropdown-item" href="#">Apagar</a></li>
+                            <li><a id="atualizarCnh" name="atualizarCnh" class="dropdown-item" asp-area="" asp-controller="Courier" asp-action="GetById" asp-route-id="@userId">Atualizar CNH</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Alugar
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("Index", "MotorcycleRental")">Solicitar</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -137,6 +146,17 @@
         Swal.fire({
             title: "A imagem da CNH do entregador",
             text: "foi atualizado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["MotorcycleRentalSuccess"] != null && TempData["MotorcycleRentalSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "Realizado a solicitação do aluguel da",
+            text: "moto com sucesso!",
             icon: "success"
         });
     </script>

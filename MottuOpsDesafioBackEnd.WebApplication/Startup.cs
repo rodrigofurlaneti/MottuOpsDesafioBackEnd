@@ -28,15 +28,19 @@ public class Startup
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<ICourierService, CourierService>();
         services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<IPlanRentalService, PlanRentalService>();
         services.AddScoped<IMotorcycleService, MotorcycleService>();
+        services.AddScoped<IMotorcycleRentalService, MotorcycleRentalService>();
         services.AddScoped<IMotorcycleTypeService, MotorcycleTypeService>();
         services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<ICourierRepository, CourierRepository>();
         services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+        services.AddScoped<IMotorcycleRentalRepository, MotorcycleRentalRepository>();
         services.AddScoped<IMotorcycleTypeRepository, MotorcycleTypeRepository>();
         services.AddScoped<IProfileRepository, ProfileRepository>();
+        services.AddScoped<IPlanRentalRepository, PlanRentalRepository>();
         services.AddScoped<IUserRepository, UserRepository>(); 
     }
 
