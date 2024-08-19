@@ -2,11 +2,13 @@
 @{
     var authResponseJson = Context.Session.GetString("AuthResponse"); // Ou use ViewContext.HttpContext.Session
     int? profileId = null;
+    int? userId = null;
 
     if (!string.IsNullOrEmpty(authResponseJson))
     {
         var authResponse = JsonSerializer.Deserialize<MottuOpsDesafioBackEnd.Domain.Models.AuthenticationResponse>(authResponseJson);
         profileId = authResponse?.ProfileId;
+        userId = authResponse?.Id;
     }
 }
 
@@ -77,8 +79,7 @@
                             Entregador
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Atualizar</a></li>
-                            <li><a class="dropdown-item" href="#">Apagar</a></li>
+                            <li><a id="atualizarCnh" name="atualizarCnh" class="dropdown-item" asp-area="" asp-controller="Courier" asp-action="GetById" asp-route-id="@userId">Atualizar CNH</a></li>
                         </ul>
                     </li>
                 </ul>

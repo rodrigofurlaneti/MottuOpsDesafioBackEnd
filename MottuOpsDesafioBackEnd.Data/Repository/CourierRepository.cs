@@ -76,6 +76,80 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
             }
         }
 
+        public async Task<CourierModel> GetByIdAsync(int courierId)
+        {
+            string storedProcedureName = "Mottu_Procedure_Couriers_GetById";
+
+            CourierModel? courierModel = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@CouriersId", courierId);
+
+                        await connection.OpenAsync();
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                courierModel = CreateCourierFromReader(reader);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+
+            return courierModel;
+        }
+        public async Task PutCnhAsync(CourierModel courierModel)
+        {
+            string storedProcedureName = "Mottu_Procedure_Couriers_Update_Cnh";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        AddCourierCnhParameters(command, courierModel);
+
+                        await connection.OpenAsync();
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+        }
+
+
         public async Task<bool> GetByCnpjAsync(string cnpj)
         {
             string storedProcedureName = "Mottu_Procedure_Couriers_GetByCnpj";
@@ -162,6 +236,60 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
             }
 
             return ret;
+        }
+
+        private void AddCourierParameters(SqlCommand command, CourierModel courierModel)
+        {
+            var parameters = new (string, object?)[]
+            {
+                    ("@CourierId", courierModel.Id),
+                    ("@Identifier", courierModel.Identifier),
+                    ("@Name", courierModel.Name),
+                    ("@CNPJ", courierModel.CNPJ),
+                    ("@BirthDate", courierModel.BirthDate),
+                    ("@CNHNumber", courierModel.CNHNumber),
+                    ("@CNHType", courierModel.CNHType),
+                    ("@CNHImagePath", courierModel.CNHImagePath)
+            };
+
+            foreach (var (name, value) in parameters)
+            {
+                Console.WriteLine($"{name}: {value}");
+                command.Parameters.AddWithValue(name, value);
+            }
+        }
+
+        private void AddCourierCnhParameters(SqlCommand command, CourierModel courierModel)
+        {
+            var parameters = new (string, object?)[]
+            {
+                    ("@CourierId", courierModel.Id),
+                    ("@CNHImagePath", courierModel.CNHImagePath)
+            };
+
+            foreach (var (name, value) in parameters)
+            {
+                Console.WriteLine($"{name}: {value}");
+                command.Parameters.AddWithValue(name, value);
+            }
+        }
+
+        private CourierModel CreateCourierFromReader(SqlDataReader reader)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+                Console.WriteLine(reader.GetName(i) + " - " + reader.GetFieldType(i));
+
+            return new CourierModel
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Identifier = reader.GetString(reader.GetOrdinal("Identifier")),
+                Name = reader.GetString(reader.GetOrdinal("Name")),
+                CNPJ = reader.GetString(reader.GetOrdinal("CNPJ")),
+                BirthDate = reader.GetDateTime(reader.GetOrdinal("BirthDate")),
+                CNHNumber = reader.GetString(reader.GetOrdinal("CNHNumber")),
+                CNHType = reader.GetString(reader.GetOrdinal("CNHType")),
+                RegistrationDate = reader.GetDateTime(reader.GetOrdinal("RegistrationDate"))
+            };
         }
     }
 }

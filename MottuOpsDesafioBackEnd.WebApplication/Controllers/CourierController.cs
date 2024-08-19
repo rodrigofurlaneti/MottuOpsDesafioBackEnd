@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Business.Interface;
 using MottuOpsDesafioBackEnd.Domain.Models;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 {
@@ -32,25 +27,7 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
             try
             {
-                if (courierModel.CNHImagePathFormFile != null && courierModel.CNHImagePathFormFile.Length > 0)
-                {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "CNHImages");
-
-                    var formattedDate = string.Format("{0:s}", DateTime.Now);
-
-                    var dateClean = formattedDate.Replace("-", "_").Replace(":", "_");
-
-                    var uniqueFileName = dateClean + "_" + courierModel.CNHImagePathFormFile.FileName;
-
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await courierModel.CNHImagePathFormFile.CopyToAsync(fileStream);
-                    }
-
-                    courierModel.CNHImagePath = uniqueFileName; 
-                }
+                await UploadArchiveCnh(courierModel);
 
                 var courier = await _courierService.PostAsync(courierModel);
 
@@ -68,6 +45,61 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
                 Console.Error.WriteLine($"Erro durante a criação do entregador: {ex.Message}");
                 return StatusCode(500, "Erro do Servidor Interno");
             }
+        }
+
+        public async Task<ActionResult<CourierModel>> GetById(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("A solicitação para atualizar o entregador é nula");
+            }
+
+            try
+            {
+                var courier = await _courierService.GetByIdAsync(id);
+
+                if (courier == null)
+                {
+                    TempData["CourierErro"] = "Invalido";
+
+                    return RedirectToAction("Index", "Authentication");
+                }
+
+                return View(courier);
+            }
+            catch (Exception ex)
+            {
+                // Log de erro
+                Console.Error.WriteLine($"Erro durante a solicitação: {ex.Message}");
+
+                return StatusCode(500, "Erro do Servidor Interno");
+            }
+        }
+
+        public async Task<IActionResult> UpdateCnh([FromForm] CourierModel courierModel)
+        {
+            if (courierModel == null)
+            {
+                return BadRequest("A solicitação do usuário é nula");
+            }
+
+            try
+            {
+                await UploadArchiveCnh(courierModel);
+
+                await _courierService.PutCnhAsync(courierModel);
+
+                TempData["CourierUpdateCnhSuccess"] = "Valido";
+
+                return RedirectToAction("Index", "Authentication");
+            }
+            catch (Exception ex)
+            {
+                // Log de erro
+                Console.Error.WriteLine($"Erro durante a solicitação: {ex.Message}");
+
+                return StatusCode(500, "Erro do Servidor Interno");
+            } // Se houver erros, retorne a view com o modelo para correção
         }
 
         public async Task<JsonResult> CnpjExist(string cnpj)
@@ -106,6 +138,31 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
                 Console.Error.WriteLine($"Erro durante a verificação da CNH: {ex.Message}");
                 return Json(false); 
             }
+        }
+
+        private async Task<CourierModel> UploadArchiveCnh(CourierModel courierModel)
+        {
+            if (courierModel.CNHImagePathFormFile != null && courierModel.CNHImagePathFormFile.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "CNHImages");
+
+                var formattedDate = string.Format("{0:s}", DateTime.Now);
+
+                var dateClean = formattedDate.Replace("-", "_").Replace(":", "_");
+
+                var uniqueFileName = dateClean + "_" + courierModel.CNHImagePathFormFile.FileName;
+
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await courierModel.CNHImagePathFormFile.CopyToAsync(fileStream);
+                }
+
+                courierModel.CNHImagePath = uniqueFileName;
+            }
+
+            return courierModel;
         }
     }
 }

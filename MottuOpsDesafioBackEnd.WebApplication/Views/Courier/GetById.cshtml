@@ -1,0 +1,177 @@
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.CourierModel
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 class="display-6">Adicionar um novo entregador</h2>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("UpdateCnh", "Courier", FormMethod.Post, new
+                    {
+                        @enctype = "multipart/form-data",
+                        @class = "form-horizontal",
+                        @id = "formCourier",
+                        @name = "formCourier"
+                    }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <input asp-for="RegistrationDate" type="hidden" value="@DateTime.Now" />
+                        <input asp-for="ProfileId" type="hidden" value="2">
+                        <input asp-for="Id" type="hidden">
+
+                        <div class="mb-3">
+                            <label asp-for="Identifier" class="form-label">Identificador *</label>
+                            <input asp-for="Identifier" class="form-control" id="Identifier" disabled/>
+                            <span asp-validation-for="Identifier" class="text-danger font-size"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Nome do entregador *</label>
+                            <input asp-for="Name" type="text" class="form-control" id="Name" disabled />
+                            <span asp-validation-for="Name" class="text-danger font-size"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CNPJ" class="form-label">CNPJ *</label>
+                            <input asp-for="CNPJ" type="number" class="form-control" id="CnpjInput" disabled />
+                            <span asp-validation-for="CNPJ" class="text-danger font-size" id="CnpjValidation"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BirthDate" class="form-label">Data de nascimento *</label>
+                            <input asp-for="BirthDate" type="date" class="form-control" id="BirthDate" disabled />
+                            <span asp-validation-for="BirthDate" class="text-danger font-size"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CNHNumber" class="form-label">Número da CNH *</label>
+                            <input asp-for="CNHNumber" type="number" class="form-control" id="CnhInput" disabled />
+                            <span asp-validation-for="CNHNumber" class="text-danger font-size" id="CnhValidation"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CNHType" class="form-label">Tipo da CNH *</label>
+                            <select asp-for="CNHType" class="form-control" id="CnhType" disabled>
+                                <option value="">Selecione um tipo de CNH</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="A+B">A+B</option>
+                            </select>
+                            <span asp-validation-for="CNHType" class="text-danger font-size"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CNHImagePathFormFile" class="form-label">Imagem da CNH *</label>
+                            <input asp-for="CNHImagePathFormFile" type="file" class="form-control form-control-sm" id="CnhImagePath" />
+                            <span asp-validation-for="CNHImagePathFormFile" class="text-danger font-size"></span>
+                        </div>
+
+                        <p>* campos obrigatórios</p>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $('#CnhImagePathFormFile').change(function () {
+                var file = this.files[0];
+                var fileType = file.type;
+                var validTypes = ['image/png', 'image/bmp'];
+
+                if (!validTypes.includes(fileType)) {
+                    Swal.fire({
+                        title: "Formato de arquivo inválido!",
+                        text: "Apenas arquivos PNG ou BMP são permitidos.",
+                        icon: "error"
+                    });
+                    $(this).val('');
+                }
+            });
+
+            $('#CnpjInput').blur(function () {
+                var cnpj = $(this).val();
+                if (cnpj) {
+                    $.ajax({
+                        url: '@Url.Action("CnpjExist", "Courier")',
+                        type: 'GET',
+                        data: { cnpj: cnpj },
+                        success: function (data) {
+                            if (data === true) {
+                                $('#CnpjValidation').text("Este CNPJ já está em uso.");
+                                Swal.fire({
+                                    title: "Este CNPJ já está cadastrado!",
+                                    text: "Não pode ser adicionado na base de dados!",
+                                    icon: "error"
+                                });
+                                $('#CnpjInput').val("");
+                                $('#CnpjValidation').text("");
+                            }
+                        },
+                        error: function () {
+                            $('#CnpjValidation').text("Erro ao verificar o CNPJ.");
+                        }
+                    });
+                }
+            });
+
+            $('#CnhInput').blur(function () {
+                var cnh = $(this).val();
+                if (cnh) {
+                    $.ajax({
+                        url: '@Url.Action("CnhExist", "Courier")',
+                        type: 'GET',
+                        data: { cnh: cnh },
+                        success: function (data) {
+                            if (data === true) {
+                                $('#CnhValidation').text("Este CNH já está em uso.");
+                                Swal.fire({
+                                    title: "Este CNH já está cadastrado!",
+                                    text: "Não pode ser adicionado na base de dados!",
+                                    icon: "error"
+                                });
+                                $('#CnhInput').val("");
+                                $('#CnhValidation').text("");
+                            }
+                        },
+                        error: function () {
+                            $('#CnhValidation').text("Erro ao verificar o CNH.");
+                        }
+                    });
+                }
+            });
+
+            $('formCourier').submit(function (e) {
+                var isValid = true;
+
+                $(this).find('input, select').each(function () {
+                    if ($(this).val() === '' && $(this).attr('type') !== 'hidden') {
+                        var fieldLabel = $("label[for='" + $(this).attr('id') + "']").text();
+                        Swal.fire({
+                            title: "Campo obrigatório",
+                            text: "O campo " + fieldLabel + " é obrigatório.",
+                            icon: "warning"
+                        });
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

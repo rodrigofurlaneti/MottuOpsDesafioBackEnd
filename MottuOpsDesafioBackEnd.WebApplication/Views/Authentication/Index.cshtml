@@ -131,6 +131,17 @@
     </script>
 }
 
+@if (TempData["CourierUpdateCnhSuccess"] != null && TempData["CourierUpdateCnhSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "A imagem da CNH do entregador",
+            text: "foi atualizado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
 @if (TempData["MotorcycleTypeDeleteSuccess"] != null && TempData["MotorcycleTypeDeleteSuccess"].ToString() == "Valido")
 {
     <script>

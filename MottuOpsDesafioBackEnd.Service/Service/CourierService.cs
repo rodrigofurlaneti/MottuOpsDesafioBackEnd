@@ -54,5 +54,33 @@ namespace MottuOpsDesafioBackEnd.Business.Service
                 throw new ApplicationException($"Erro ao consultar se o CNPJ já existe na base de dados {cnh}", ex);
             }
         }
+
+        public Task<CourierModel> GetByIdAsync(int courierId)
+        {
+            try
+            {
+                return _courierRepository.GetByIdAsync(courierId);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro ao selecionar um entregador {courierId}", ex.Message);
+
+                throw new ApplicationException($"Erro ao selecionar um entregador {courierId}", ex);
+            }
+        }
+
+        public Task PutCnhAsync(CourierModel courierModel)
+        {
+            try
+            {
+                return _courierRepository.PutCnhAsync(courierModel);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro ao atualizar a CNH do entregador {courierModel.Identifier}", ex.Message);
+
+                throw new ApplicationException($"Erro ao atualizar a CNH do entregador {courierModel.Identifier}", ex);
+            }
+        }
     }
 }
