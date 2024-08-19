@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MottuOpsDesafioBackEnd.Business.Interface;
 using MottuOpsDesafioBackEnd.Domain.Models;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 {
@@ -27,6 +32,26 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
             try
             {
+                if (courierModel.CNHImagePathFormFile != null && courierModel.CNHImagePathFormFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "CNHImages");
+
+                    var formattedDate = string.Format("{0:s}", DateTime.Now);
+
+                    var dateClean = formattedDate.Replace("-", "_").Replace(":", "_");
+
+                    var uniqueFileName = dateClean + "_" + courierModel.CNHImagePathFormFile.FileName;
+
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await courierModel.CNHImagePathFormFile.CopyToAsync(fileStream);
+                    }
+
+                    courierModel.CNHImagePath = uniqueFileName; 
+                }
+
                 var courier = await _courierService.PostAsync(courierModel);
 
                 if (courier == 0)

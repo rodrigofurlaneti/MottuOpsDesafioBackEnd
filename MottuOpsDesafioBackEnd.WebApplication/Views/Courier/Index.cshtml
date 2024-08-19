@@ -8,7 +8,8 @@
                     <h2 class="display-6">Adicionar um novo entregador</h2>
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("Post", "Courier", FormMethod.Post, new { @class = "form-horizontal", @id = "formCourier", @name = "formCourier" }))
+                    @using (Html.BeginForm("Post", "Courier", FormMethod.Post, new { @enctype = "multipart/form-data", 
+                        @class = "form-horizontal", @id = "formCourier", @name = "formCourier" }))
                     {
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -57,9 +58,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="CNHImagePath" class="form-label">Imagem da CNH *</label>
-                            <input asp-for="CNHImagePath" type="text" class="form-control" id="CnhImagePath" />
-                            <span asp-validation-for="CNHImagePath" class="text-danger font-size"></span>
+                            <label asp-for="CNHImagePathFormFile" class="form-label">Imagem da CNH *</label>
+                            <input asp-for="CNHImagePathFormFile" type="file" class="form-control form-control-sm" id="CnhImagePath" />
+                            <span asp-validation-for="CNHImagePathFormFile" class="text-danger font-size"></span>
                         </div>
 
                         <div class="mb-3">
@@ -89,6 +90,21 @@
 
     <script>
         $(document).ready(function () {
+
+            $('#CnhImagePathFormFile').change(function () {
+                var file = this.files[0];
+                var fileType = file.type;
+                var validTypes = ['image/png', 'image/bmp'];
+
+                if (!validTypes.includes(fileType)) {
+                    Swal.fire({
+                        title: "Formato de arquivo inválido!",
+                        text: "Apenas arquivos PNG ou BMP são permitidos.",
+                        icon: "error"
+                    });
+                    $(this).val('');
+                }
+            });
 
             $('#CnpjInput').blur(function () {
                 var cnpj = $(this).val();

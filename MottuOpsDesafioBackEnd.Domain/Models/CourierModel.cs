@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace MottuOpsDesafioBackEnd.Domain.Models
 {
@@ -23,9 +24,9 @@ namespace MottuOpsDesafioBackEnd.Domain.Models
 
         [Required(ErrorMessage = "O campo Tipo da CNH é obrigatório.")]
         public string CNHType { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "O campo Imagem da CNH é obrigatório.")]
         public string CNHImagePath { get; set; } = string.Empty;
+
+        public IFormFile CNHImagePathFormFile { get; set; }
 
         public DateTime RegistrationDate { get; set; }
     }
