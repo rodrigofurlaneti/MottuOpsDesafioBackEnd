@@ -1,0 +1,54 @@
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.MotorcycleRentalModel
+
+@{
+    var valorTotal = ViewBag.ValorTotal;
+}
+
+@if (Model != null)
+{
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="text-align: center;">Extrato de Locação</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Data de início:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.StartDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Data de término previsto:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.ExpectedEndDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Data do término:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.EndDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Diárias:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.DailyRate.ToString("F2")</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Nome do plano:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.Plans.Identifier.ToString()</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Diárias do plano:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.Plans.Days.ToString()</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Valor por dia do plano:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.Plans.Value.ToString()</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Taxa/Multa do plano:</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 8px; text-align: right;">@Model.Plans.TerminationFine.ToString()</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold; padding: 8px;">Valor total a pagar:</td>
+                <td style="font-weight: bold; padding: 8px; text-align: right;">@valorTotal.ToString("C")</td>
+            </tr>
+        </table>
+    </div>
+}
+else
+{
+    <h5 style="text-align: center;">Não existe aluguel cadastrado na base de dados!</h5>
+}

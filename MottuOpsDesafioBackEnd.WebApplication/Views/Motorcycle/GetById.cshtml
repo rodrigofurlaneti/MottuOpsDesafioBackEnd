@@ -31,6 +31,9 @@
             <input asp-for="LicensePlate" type="text" class="form-control form-control-sm input-small" />
             <span asp-validation-for="LicensePlate" class="text-danger"></span>
         </div>
+        <a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+            Voltar
+        </a>
         <button type="submit" class="btn btn-primary">Enviar</button>
     }
 </div>

@@ -66,6 +66,9 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                 Username = reader.GetString(reader.GetOrdinal("Username")),
                 PasswordHash = reader.GetString(reader.GetOrdinal("PasswordHash")),
                 ProfileId = reader.GetInt32(reader.GetOrdinal("ProfileId")),
+                CourierId = reader.IsDBNull(reader.GetOrdinal("CourierId"))
+                    ? (int?)null
+                    : reader.GetInt32(reader.GetOrdinal("CourierId"))
             };
         }
     }

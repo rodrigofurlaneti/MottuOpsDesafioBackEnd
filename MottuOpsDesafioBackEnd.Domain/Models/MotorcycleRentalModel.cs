@@ -1,4 +1,6 @@
-﻿namespace MottuOpsDesafioBackEnd.Domain.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MottuOpsDesafioBackEnd.Domain.Models
 {
     public class MotorcycleRentalModel
     {
@@ -12,6 +14,7 @@
         public decimal DailyRate { get; set; }
         public DateTime CreatedAt { get; set; }
         public CourierModel Courier { get; set; }
+        public PlanRentalModel Plans { get; set; }
         public IEnumerable<MotorcycleModel> Motorcycles { get; set; } = new List<MotorcycleModel>();
         public IEnumerable<PlanRentalModel> PlansRental { get; set; } = new List<PlanRentalModel>();
     }

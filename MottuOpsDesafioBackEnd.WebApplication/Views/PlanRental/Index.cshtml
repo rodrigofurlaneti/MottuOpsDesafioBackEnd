@@ -1,0 +1,99 @@
+﻿@model MottuOpsDesafioBackEnd.Domain.Models.PlanRentalModel
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 class="display-6">Adicionar um novo plano</h2>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Post", "PlanRental", FormMethod.Post, new
+                    {
+                        @enctype = "multipart/form-data",
+                        @class = "form-horizontal",
+                        @id = "formPlanRental",
+                        @name = "formPlanRental"
+                    }))
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <p>* campos obrigatórios</p>
+
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label asp-for="Identifier" class="form-label">Identificador *</label>
+                                <input asp-for="Identifier" class="form-control form-control-sm" id="Identifier" name="Identifier" maxlength="50" />
+                                <span asp-validation-for="Identifier" class="text-danger font-size"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Days" class="form-label">Dias *</label>
+                                <input asp-for="Days" type="text" class="form-control form-control-sm" id="Days" name="Days" maxlength="2" oninput="validateDaysInput(this)" />
+                                <span asp-validation-for="Days" class="text-danger font-size"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label asp-for="Value" class="form-label">Valor por dia *</label>
+                                <input asp-for="Value" type="text" class="form-control form-control-sm" id="Value" name="Value" oninput="validateValueInput(this)" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="TerminationFine" class="form-label">Multa *</label>
+                                <input asp-for="TerminationFine" type="text" class="form-control form-control-sm" id="TerminationFine" name="TerminationFine" />
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+                                Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        function validateDaysInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            if (input.value.length > 2) {
+                input.value = input.value.slice(0, 2);
+            }
+        }
+
+        function formatCurrency(input) {
+            let value = input.value.replace(/\D/g, '');
+            value = (value / 100).toFixed(2);
+            value = value.replace('.', ',');
+            input.value = `R$ ${value}`;
+        }
+
+        function formatPercent(input) {
+            let value = input.value.replace(/\D/g, '');
+            value = (value / 100).toFixed(2);
+            value = value.replace('.', ',');
+            input.value = `${value} %`;
+        }
+
+        document.getElementById('Days').addEventListener('input', function () {
+            validateDaysInput(this);
+        });
+
+        document.getElementById('Value').addEventListener('input', function () {
+            formatCurrency(this);
+        });
+
+        document.getElementById('TerminationFine').addEventListener('input', function () {
+            formatPercent(this);
+        });
+    </script>
+}

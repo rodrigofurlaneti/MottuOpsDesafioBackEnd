@@ -15,13 +15,13 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Username</td>
-                    <td>@item.ProfileName</td>
-                    <td>
-                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="User" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
+                    <td class="text-center">@item.Username</td>
+                    <td class="text-center">@item.ProfileName</td>
+                    <td class="text-center">
+                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center btn-sm" asp-area="" asp-controller="User" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
                     </td>
-                    <td>
-                        <a class="btn btn-danger text-center" asp-area="" asp-controller="User" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+                    <td class="text-center">
+                        <a class="btn btn-danger text-center btn-sm" asp-area="" asp-controller="User" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
                     </td>
                 </tr>
             }
@@ -36,3 +36,7 @@
 </table>
 
 <h6>Total de usuários cadastrados: @(Model?.Count() ?? 0)</h6>
+
+<a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+    Voltar
+</a>

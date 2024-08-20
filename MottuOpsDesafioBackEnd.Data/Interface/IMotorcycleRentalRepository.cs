@@ -5,5 +5,7 @@ namespace MottuOpsDesafioBackEnd.Data.Interface
     public interface IMotorcycleRentalRepository
     {
         Task<int> PostAsync(MotorcycleRentalModel motorcycleRentalModel);
+
+        Task<MotorcycleRentalModel> GetByCourierIdAsync(int courierId);
     }
 }

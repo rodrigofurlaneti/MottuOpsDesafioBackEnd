@@ -17,6 +17,48 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                 ?? throw new ArgumentNullException(nameof(configuration), "A string de conexão não pode ser nula");
         }
 
+        public async Task<MotorcycleRentalModel> GetByCourierIdAsync(int courierId)
+        {
+            string storedProcedureName = "Mottu_Procedure_MotorcycleRental_GetByCourierId";
+
+            MotorcycleRentalModel motorcycleRentalModel = new MotorcycleRentalModel();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@CourierId", courierId);
+
+                        await connection.OpenAsync();
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                motorcycleRentalModel = CreateMotorcycleRentalsFromReader(reader);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.Error.WriteLine($"Erro de SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro: {ex.Message}");
+                throw;
+            }
+
+            return motorcycleRentalModel;
+        }
+
         public async Task<int> PostAsync(MotorcycleRentalModel motorcycleRentalModel)
         {
             string storedProcedureName = "Mottu_Procedure_MotorcycleRentals_Insert";
@@ -68,6 +110,25 @@ namespace MottuOpsDesafioBackEnd.Data.Repository
                 Console.Error.WriteLine($"Erro: {ex.Message}");
                 throw;
             }
+        }
+
+
+        private MotorcycleRentalModel CreateMotorcycleRentalsFromReader(SqlDataReader reader)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+                Console.WriteLine(reader.GetName(i) + " - " + reader.GetFieldType(i));
+
+            return new MotorcycleRentalModel
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                CourierId = reader.GetInt32(reader.GetOrdinal("CourierId")),
+                MotorcycleId = reader.GetInt32(reader.GetOrdinal("MotorcycleId")),
+                StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                ExpectedEndDate = reader.GetDateTime(reader.GetOrdinal("ExpectedEndDate")),
+                PlanType = reader.GetString(reader.GetOrdinal("PlanType")),
+                DailyRate = reader.GetDecimal(reader.GetOrdinal("DailyRate"))
+            };
         }
     }
 }

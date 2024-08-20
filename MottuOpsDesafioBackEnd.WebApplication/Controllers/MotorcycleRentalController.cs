@@ -13,12 +13,15 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
         private readonly IPlanRentalService _planRentalService;
 
+        private readonly ICourierService _courierService;
+
         public MotorcycleRentalController(IMotorcycleRentalService motorcycleRentalService, 
-            IMotorcycleService motorcycleService, IPlanRentalService planRentalService)
+            IMotorcycleService motorcycleService, IPlanRentalService planRentalService, ICourierService courierService)
         {
             _motorcycleRentalService = motorcycleRentalService;
             _motorcycleService = motorcycleService;
             _planRentalService = planRentalService;
+            _courierService = courierService;
         }
 
         public async Task<IActionResult> Index()
@@ -48,18 +51,29 @@ namespace MottuOpsDesafioBackEnd.WebApplication.Controllers
 
             try
             {
-                var motorcycleRental = await _motorcycleRentalService.PostAsync(motorcycleRentalModel);
+                var courier = await _courierService.GetByIdAsync(motorcycleRentalModel.CourierId);
 
-                if (motorcycleRental == 0)
+                if (courier.CNHType.Equals("A") || courier.CNHType.Equals("A+B"))
                 {
-                    TempData["MotorcycleRentalErro"] = "Invalido";
+                    var motorcycleRental = await _motorcycleRentalService.PostAsync(motorcycleRentalModel);
+
+                    if (motorcycleRental == 0)
+                    {
+                        TempData["MotorcycleRentalErro"] = "Invalido";
+
+                        return RedirectToAction("Index", "Authentication");
+                    }
+
+                    TempData["MotorcycleRentalSuccess"] = "Valido";
 
                     return RedirectToAction("Index", "Authentication");
                 }
+                else
+                {
+                    TempData["MotorcycleRentalCNHTypeBErro"] = "Invalido";
 
-                TempData["MotorcycleRentalSuccess"] = "Valido";
-
-                return RedirectToAction("Index", "Authentication");
+                    return RedirectToAction("Index", "Authentication");
+                }
             }
             catch (Exception ex)
             {

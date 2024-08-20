@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MottuOpsDesafioBackEnd.Domain.Models.PlanRentalModel>
+
+<table class="table table-hover" id="motorcycleTable">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Identificador</th>
+            <th scope="col" class="text-center">Dias</th>
+            <th scope="col" class="text-center">Valor por dia</th>
+            <th scope="col" class="text-center">Multa</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.Identifier</td>
+                    <td class="text-center">@item.Days</td>
+                    <td class="text-center">@item.Value</td>
+                    <td class="text-center">@item.TerminationFine</td>
+                    <td class="text-center">
+                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center btn-sm" asp-area="" asp-controller="PlanRental" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-danger text-center btn-sm" asp-area="" asp-controller="PlanRental" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <h5>Falta banco de dados!</h5>
+        }
+    </tbody>
+</table>
+
+<h6>Total de planos cadastrados: @Model.Count()</h6>
+
+<a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+    Voltar
+</a>
+

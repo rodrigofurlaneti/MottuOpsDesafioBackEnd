@@ -3,11 +3,13 @@
 @{
     var authResponseJson = Context.Session.GetString("AuthResponse"); // Ou use ViewContext.HttpContext.Session
     int? userId = null;
+    int? courierId = null;
 
     if (!string.IsNullOrEmpty(authResponseJson))
     {
         var authResponse = JsonSerializer.Deserialize<MottuOpsDesafioBackEnd.Domain.Models.AuthenticationResponse>(authResponseJson);
         userId = authResponse?.Id;
+        courierId = authResponse?.CourierId;
     }
 }
 
@@ -28,10 +30,11 @@
                     {
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <input asp-for="CourierId" type="hidden" value="@userId">
+                        <input asp-for="CourierId" type="hidden" value="@courierId">
+                        <input asp-for="DailyRate" type="hidden" class="form-control" id="DailyRate" name="DailyRate" />
 
                         <div class="mb-3">
-                            <label asp-for="MotorcycleId" class="form-label">Moto</label>
+                            <label asp-for="MotorcycleId" class="form-label">Moto *</label>
                             <select asp-for="MotorcycleId" class="form-control form-control-sm input-small">
                                 <option value="">Selecione uma moto</option>
                                 @foreach (var motorcycle in Model.Motorcycles)
@@ -42,46 +45,48 @@
                             <span asp-validation-for="MotorcycleId" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="StartDate" class="form-label">Data de início *</label>
-                            <input asp-for="StartDate" type="date" class="form-control" id="StartDate" name="StartDate" />
-                            <span asp-validation-for="StartDate" class="text-danger font-size"></span>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label asp-for="StartDate" class="form-label">Data de início *</label>
+                                <input asp-for="StartDate" type="date" class="form-control" id="StartDate" name="StartDate" />
+                                <span asp-validation-for="StartDate" class="text-danger font-size"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ExpectedEndDate" class="form-label">Data prevista final *</label>
+                                <input asp-for="ExpectedEndDate" type="date" class="form-control" id="ExpectedEndDate" name="ExpectedEndDate" />
+                                <span asp-validation-for="ExpectedEndDate" class="text-danger font-size"></span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ExpectedEndDate" class="form-label">Data prevista final *</label>
-                            <input asp-for="ExpectedEndDate" type="date" class="form-control" id="ExpectedEndDate" name="ExpectedEndDate" />
-                            <span asp-validation-for="ExpectedEndDate" class="text-danger font-size"></span>
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label asp-for="EndDate" class="form-label">Data fim *</label>
+                                <input asp-for="EndDate" type="date" class="form-control" id="EndDate" name="EndDate" />
+                                <span asp-validation-for="EndDate" class="text-danger font-size"></span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="EndDate" class="form-label">Data fim *</label>
-                            <input asp-for="EndDate" type="date" class="form-control" id="EndDate" name="EndDate" />
-                            <span asp-validation-for="EndDate" class="text-danger font-size"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="PlanType" class="form-label">Planos - Dias - Valor por dia</label>
-                            <select asp-for="PlanType" class="form-control form-control-sm input-small">
-                                <option value="">Selecione um plano</option>
-                                @foreach (var plan in Model.PlansRental)
-                                {
-                                    <option value="@plan.Days">@plan.Identifier - @plan.Days - @plan.Value</option>
-                                }
-                            </select>
-                            <span asp-validation-for="MotorcycleId" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="DailyRate" class="form-label">Diária *</label>
-                            <input asp-for="DailyRate" type="number" class="form-control" id="DailyRate" name="DailyRate" />
-                            <span asp-validation-for="DailyRate" class="text-danger font-size" id="CnpjValidation"></span>
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label asp-for="PlanType" class="form-label">Planos - Dias - Valor por dia</label>
+                                <select asp-for="PlanType" class="form-control form-control-sm input-small">
+                                    <option value="">Selecione um plano - Nome plano - Dias - Valor por dia</option>
+                                    @foreach (var plan in Model.PlansRental)
+                                    {
+                                        <option value="@plan.Days">@plan.Identifier - @plan.Days - @plan.Value</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="MotorcycleId" class="text-danger"></span>
+                            </div>
                         </div>
 
                         <p>* campos obrigatórios</p>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Enviar</button>
+                            <a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+                                Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
                         </div>
                     }
                 </div>

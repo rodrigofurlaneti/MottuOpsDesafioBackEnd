@@ -9,6 +9,9 @@
             <input asp-for="TypeName" class="form-control form-control-sm input-small" />
             <span asp-validation-for="TypeName" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+            Voltar
+        </a>
+        <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
     }
 </div>

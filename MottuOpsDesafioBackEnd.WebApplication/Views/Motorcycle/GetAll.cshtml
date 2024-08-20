@@ -22,15 +22,15 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Identifier</td>
-                    <td>@item.Year</td>
-                    <td>@item.Model</td>
-                    <td>@item.LicensePlate</td>
+                    <td class="text-center">@item.Identifier</td>
+                    <td class="text-center">@item.Year</td>
+                    <td class="text-center">@item.Model</td>
+                    <td class="text-center">@item.LicensePlate</td>
                     <td>
-                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center" asp-area="" asp-controller="Motorcycle" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
+                        <a id="atualizar" name="atualizar" class="btn btn-warning text-center btn-sm" asp-area="" asp-controller="Motorcycle" asp-action="GetById" asp-route-id="@item.Id">Atualizar</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger text-center" asp-area="" asp-controller="Motorcycle" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+                        <a class="btn btn-danger text-center btn-sm" asp-area="" asp-controller="Motorcycle" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
                     </td>
                 </tr>
             }
@@ -43,6 +43,10 @@
 </table>
 
 <h6>Total de modelos de motos cadastrados: @Model.Count()</h6>
+
+<a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+    Voltar
+</a>
 
 <script>
     function filterTable() {

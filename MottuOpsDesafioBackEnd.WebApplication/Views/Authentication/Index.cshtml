@@ -3,12 +3,14 @@
     var authResponseJson = Context.Session.GetString("AuthResponse"); // Ou use ViewContext.HttpContext.Session
     int? profileId = null;
     int? userId = null;
+    int? courierId = null;
 
     if (!string.IsNullOrEmpty(authResponseJson))
     {
         var authResponse = JsonSerializer.Deserialize<MottuOpsDesafioBackEnd.Domain.Models.AuthenticationResponse>(authResponseJson);
         profileId = authResponse?.ProfileId;
         userId = authResponse?.Id;
+        courierId = authResponse?.CourierId;
     }
 }
 
@@ -58,6 +60,15 @@
                             <li><a class="dropdown-item" href="@Url.Action("GetAll", "Profile")">Listar todos</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Plano
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("Index", "PlanRental")">Adicionar</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("GetAll", "PlanRental")">Listar todos</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -90,6 +101,14 @@
                             <li><a class="dropdown-item" href="@Url.Action("Index", "MotorcycleRental")">Solicitar</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Devolver
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a id="extratoAluguel" name="extratoAluguel" class="dropdown-item" asp-area="" asp-controller="ReturnMotorcycle" asp-action="Index" asp-route-id="@courierId">Extrato</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -113,6 +132,39 @@
         Swal.fire({
             title: "Usuário e senha válidos.",
             text: "Autenticado com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["PlanRentalSuccess"] != null && TempData["PlanRentalSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O plano foi adicionado.",
+            text: "com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["PlanRentalUpdateSuccess"] != null && TempData["PlanRentalUpdateSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O plano foi atualizado.",
+            text: "com sucesso!",
+            icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["PlanRentalDeleteSuccess"] != null && TempData["PlanRentalDeleteSuccess"].ToString() == "Valido")
+{
+    <script>
+        Swal.fire({
+            title: "O registro do plano",
+            text: "foi apagado com sucesso!",
             icon: "success"
         });
     </script>
@@ -236,6 +288,17 @@
             title: "O registro do usuário",
             text: "foi apagado com sucesso!",
             icon: "success"
+        });
+    </script>
+}
+
+@if (TempData["MotorcycleRentalCNHTypeBErro"] != null && TempData["MotorcycleRentalCNHTypeBErro"].ToString() == "Invalido")
+{
+    <script>
+        Swal.fire({
+            title: "Somente entregadores habilitados na categoria A,",
+            text: "podem efetuar uma locação!",
+            icon: "error"
         });
     </script>
 }

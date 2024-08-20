@@ -22,45 +22,51 @@
                         <input asp-for="ProfileId" type="hidden" value="2">
                         <input asp-for="Id" type="hidden">
 
-                        <div class="mb-3">
-                            <label asp-for="Identifier" class="form-label">Identificador *</label>
-                            <input asp-for="Identifier" class="form-control" id="Identifier" disabled/>
-                            <span asp-validation-for="Identifier" class="text-danger font-size"></span>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label asp-for="Identifier" class="form-label">Identificador *</label>
+                                <input asp-for="Identifier" class="form-control form-control-sm" id="Identifier" disabled />
+                                <span asp-validation-for="Identifier" class="text-danger font-size"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label">Nome do entregador *</label>
+                                <input asp-for="Name" type="text" class="form-control form-control-sm" id="Name" disabled />
+                                <span asp-validation-for="Name" class="text-danger font-size"></span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Name" class="form-label">Nome do entregador *</label>
-                            <input asp-for="Name" type="text" class="form-control" id="Name" disabled />
-                            <span asp-validation-for="Name" class="text-danger font-size"></span>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label asp-for="CNPJ" class="form-label">CNPJ *</label>
+                                <input asp-for="CNPJ" type="number" class="form-control form-control-sm" id="CnpjInput" disabled />
+                                <span asp-validation-for="CNPJ" class="text-danger font-size" id="CnpjValidation"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="BirthDate" class="form-label">Data de nascimento *</label>
+                                <input asp-for="BirthDate" type="date" class="form-control form-control-sm" id="BirthDate" disabled />
+                                <span asp-validation-for="BirthDate" class="text-danger font-size"></span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="CNPJ" class="form-label">CNPJ *</label>
-                            <input asp-for="CNPJ" type="number" class="form-control" id="CnpjInput" disabled />
-                            <span asp-validation-for="CNPJ" class="text-danger font-size" id="CnpjValidation"></span>
-                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label asp-for="CNHNumber" class="form-label">Número da CNH *</label>
+                                <input asp-for="CNHNumber" type="number" class="form-control form-control-sm" id="CnhInput" disabled />
+                                <span asp-validation-for="CNHNumber" class="text-danger font-size" id="CnhValidation"></span>
+                            </div>
 
-                        <div class="mb-3">
-                            <label asp-for="BirthDate" class="form-label">Data de nascimento *</label>
-                            <input asp-for="BirthDate" type="date" class="form-control" id="BirthDate" disabled />
-                            <span asp-validation-for="BirthDate" class="text-danger font-size"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="CNHNumber" class="form-label">Número da CNH *</label>
-                            <input asp-for="CNHNumber" type="number" class="form-control" id="CnhInput" disabled />
-                            <span asp-validation-for="CNHNumber" class="text-danger font-size" id="CnhValidation"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="CNHType" class="form-label">Tipo da CNH *</label>
-                            <select asp-for="CNHType" class="form-control" id="CnhType" disabled>
-                                <option value="">Selecione um tipo de CNH</option>
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="A+B">A+B</option>
-                            </select>
-                            <span asp-validation-for="CNHType" class="text-danger font-size"></span>
+                            <div class="col-md-6">
+                                <label asp-for="CNHType" class="form-label">Tipo da CNH *</label>
+                                <select asp-for="CNHType" class="form-control form-control-sm" id="CnhType" disabled>
+                                    <option value="">Selecione um tipo de CNH</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="A+B">A+B</option>
+                                </select>
+                                <span asp-validation-for="CNHType" class="text-danger font-size"></span>
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -71,7 +77,10 @@
 
                         <p>* campos obrigatórios</p>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Enviar</button>
+                            <a class="btn btn-secondary btn-sm" href="@Url.Action("Index", "Authentication")">
+                                Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
                         </div>
                     }
                 </div>

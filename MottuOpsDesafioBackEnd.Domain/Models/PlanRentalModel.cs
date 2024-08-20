@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public string Identifier { get; set; } = string.Empty;
         public string Days { get; set; } = string.Empty;
-        public decimal Value { get; set; } = 0.00m;
-        public decimal TerminationFine { get; set; } = 0.00m;
+        public string Value { get; set; } = string.Empty;
+        public string TerminationFine { get; set; } = string.Empty;
         public DateTime RegistrationDate { get; set; }
     }
 }

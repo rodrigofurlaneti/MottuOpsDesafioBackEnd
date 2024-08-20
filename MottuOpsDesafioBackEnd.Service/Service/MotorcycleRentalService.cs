@@ -19,6 +19,20 @@ namespace MottuOpsDesafioBackEnd.Business.Service
             _motorcycleRentalRepository = motorcycleRentalRepository;
         }
 
+        public Task<MotorcycleRentalModel> GetByCourierIdAsync(int courierId)
+        {
+            try
+            {
+                return _motorcycleRentalRepository.GetByCourierIdAsync(courierId);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Erro ao consultar o aluguel de moto, id do entregador: {courierId}", ex.Message);
+
+                throw new ApplicationException($"Erro ao consultar o aluguel de moto, id do entregador: {courierId}", ex);
+            }
+        }
+
         public Task<int> PostAsync(MotorcycleRentalModel motorcycleRentalModel)
         {
             try
