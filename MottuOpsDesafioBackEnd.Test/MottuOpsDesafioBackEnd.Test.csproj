@@ -25,13 +25,13 @@
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Repository\" />
-    <Folder Include="WebApplication\Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MottuOpsDesafioBackEnd.Data\MottuOpsDesafioBackEnd.Data.csproj" />
     <ProjectReference Include="..\MottuOpsDesafioBackEnd.Domain\MottuOpsDesafioBackEnd.Domain.csproj" />
     <ProjectReference Include="..\MottuOpsDesafioBackEnd.Service\MottuOpsDesafioBackEnd.Business.csproj" />
+    <ProjectReference Include="..\MottuOpsDesafioBackEnd.WebApplication\MottuOpsDesafioBackEnd.WebApplication.csproj" />
   </ItemGroup>
 
 </Project>
